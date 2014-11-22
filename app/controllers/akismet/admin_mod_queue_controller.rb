@@ -31,15 +31,11 @@ module Akismet
     private
 
     def user_deletion_opts
-      base = {
+      {
         context:           "determined by #{current_user} to be a spammer",
         delete_posts:      true,
         delete_as_spammer: true
       }
-
-      if Rails.env.production?
-        base.merge({block_urls: true, block_email: true, block_ip: true})
-      end
     end
   end
 end
