@@ -1,3 +1,24 @@
 = Akismet
 
-This project rocks and uses MIT-LICENSE.
+# Block Spam on your Discourse Forum with Akismet
+
+Help fight spam by sending each new post through Akismet's spam filters.
+A background job runs every 10 minutes and grabs all the recently created posts.
+It then sends each post to Akismet.
+If it's found to be spam, it's deleted and a notice is sent to hipchat.
+
+## Setup
+
+If you don't have the migrations copied over, run the following
+````
+rake akismet:install:migrations
+rake db:migrate SCOPE=akismet
+````
+
+You also need the akismet api key set as an ENV variable
+````
+export AKISMET_KEY=''
+````
+
+
+This project uses MIT-LICENSE.
