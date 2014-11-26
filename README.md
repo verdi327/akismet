@@ -39,6 +39,7 @@ cd plugins
 git clone https://github.com/verdi327/akismet.git
 cd ..
 export AKISMET_KEY='YOUR API KEY'
+export SITE_DOMAIN='YOUR SITE'S DOMAIN' # ex - dev: 'http://localhost3000' | prod: 'https://newrelic.discuss.com'
 rake akismet:install:migrations
 rake db:migrate SCOPE=akismet
 ````
