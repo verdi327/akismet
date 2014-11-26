@@ -16,7 +16,7 @@ Action          | Result
 -------------   | -------------
 Confirm         | confirms the post as spam, leaving it deleted
 Allow           | Akismet thought something was spam but it wasn't. This undeletes the post and tells Akismet that it wasn't spam. Akismet gets smarter so it hopefully won't make the same mistake twice. 
-Delete user     | This is the nuclear option. It will delete the user and all their posts and topics.
+Delete user     | This is the nuclear option. It will delete the user and all their posts and topics and block their email and ip address.
 
 ## What Data is Sent to Akismet
 
@@ -39,7 +39,6 @@ cd plugins
 git clone https://github.com/verdi327/akismet.git
 cd ..
 export AKISMET_KEY='YOUR API KEY'
-export SITE_DOMAIN='YOUR SITE DOMAIN' # i.e. prod: https://discuss.newrelic.com | dev: http://localhost:3000 if in dev
 rake akismet:install:migrations
 rake db:migrate SCOPE=akismet
 ````
@@ -47,14 +46,22 @@ rake db:migrate SCOPE=akismet
 This plugin also comes with Hipchat support.  If you want to be notified when Akismet has detected spam, set the following ENV variables. It will post the total number of spam posts found and give you a link to the moderator queue.
 
 ````
-HIPCHAT_TOKEN='YOUR HIPCHAT TOKEN'
-NOTIFY_HIPCHAT=true;
-HIPCHAT_ROOM_ID='YOUR HIPCHAT ROOM ID';
-HIPCHAT_MSG_COLOR='COLOR YOU WANT'; # red, yellow, purple, green, gray
+export HIPCHAT_TOKEN='YOUR HIPCHAT TOKEN'
+export NOTIFY_HIPCHAT=true;
+export HIPCHAT_ROOM_ID='YOUR HIPCHAT ROOM ID';
+export HIPCHAT_MSG_COLOR='COLOR YOU WANT'; # red, yellow, purple, green, gray
 ````
 
+## Testing
+Once you have the plugin installed, let's do a quick test to make sure everything is working.  Login as a non admin user and create a new topic and post. Use the following info.
+````
+title: Spam test - Will this plugin do what it says!
+post: love vashikaran, love vashikaran specialist,919828891153 love vashikaran special black magic specialist hurry hurry love now
+````
+Now, go to `/sidekiq/scheduler` and find the `CheckForSpamPosts` jobs and trigger it.  Now, go to `/admin` and look for the tab that says `Akismet` in the menu bar.  Upon clicking you should see the post with some additional info about it.
+
 ## Debugging
-Some basic logging has been added.  Check out `/logs` and search for [akismet].  It will log when the job started running and info about posts that it found that it believes are spam.
+Some basic logging has been added.  Check out `/logs` and search for `[akismet]`.  It will log when the job started running and info about posts that it found that it believes are spam.
 
 For testing purposes, you can also trigger the job whenever you want by going to `/sidekiq/scheduler` if you are an admin.  Look for a job called `CheckForSpamPosts`
 

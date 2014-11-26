@@ -22,12 +22,22 @@ class ::Post
     {
       id:          id,
       raw:         raw,
-      url:         Discourse.base_url + url,
-      topic_title: topic.title,
-      user_url:    Discourse.base_url + "/admin/users/#{user.username}",
-      username:    user.username,
-      user_id:     user.id
+      url:         topic_url_for_queue,
+      topic_title: topic.try(:title),
+      user_url:    user_url_for_queue,
+      username:    user.try(:username),
+      user_id:     user.try(:id)
     }
+  end
+
+  private
+
+  def topic_url_for_queue
+    (Discourse.base_url + url) if topic
+  end
+
+  def user_url_for_queue
+    (Discourse.base_url + "/admin/users/#{user.username}") if user
   end
   
 end

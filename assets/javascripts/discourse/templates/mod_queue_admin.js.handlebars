@@ -27,10 +27,12 @@
           <td class="permalink">
             <a {{bindAttr href="post.user_url"}} target="_blank">{{post.username}}</a>
           </td>
-          <td>
+          <td class="queue-actions">
             <p><button class='btn btn-primary' {{action confirmSpamPost post}}><i class='fa fa-check'></i>Confirm Spam</button></p>
             <p><button class='btn' {{action allowPost post}}><i class='fa fa-thumbs-o-up'></i>Allow</button></p>
-            <p><button class='btn btn-danger' {{action deleteUser post}}><i class='fa fa-trash-o'></i>Delete User</button></p>
+            {{#if post.user_id}}
+              <p><button class='btn btn-danger' {{action deleteUser post}}><i class='fa fa-trash-o'></i>Confirm Spam & Delete User</button></p>
+            {{/if}}
           </td>
         </tbody>
       {{/each}}

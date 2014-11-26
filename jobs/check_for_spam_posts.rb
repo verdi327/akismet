@@ -19,7 +19,7 @@ module Jobs
             PostDestroyer.new(system_user, post).destroy
           end
         end
-        if spam_count > 0 && Rails.env.production? && ENV['NOTIFY_HIPCHAT']
+        if spam_count > 0 && ENV['NOTIFY_HIPCHAT'] && Rails.env.production?
           post_to_hipchat(spam_count)
         end
       end
@@ -35,7 +35,7 @@ module Jobs
     end
 
     def hipchat_message(count)
-      "<p> #{count} new posts suspected of spam <a href='/akismet/admin'>Go To Queue</a></p>"
+      "<p> #{count} new posts suspected of spam <a href='#{Discourse.base_url}/akismet/admin'>Go To Queue</a></p>"
     end
 
   end

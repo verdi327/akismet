@@ -31,12 +31,13 @@ Discourse.AkismetAdminController = Ember.ArrayController.extend({
     },
 
     deleteUser: function(cur_model){
-      var msg = "Are you sure you want to delete " + cur_model.get("username") + "?  This will remove all of their posts and topics."
+      var that = this;
+      var msg = "Are you sure you want to delete " + cur_model.get("username") + "?  This will remove all of their posts and topics and block their email and ip address."
       bootbox.confirm(msg, function(result) {
         if (result === true) {
           cur_model.deleteUser().then(function(result){
             bootbox.alert(result.msg);
-            this.removeObject(cur_model);
+            that.removeObject(cur_model);
           }.bind(this));
         }
       })
