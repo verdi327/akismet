@@ -59,12 +59,18 @@ Once you have the plugin installed, let's do a quick test to make sure everythin
 title: Spam test - Will this plugin do what it says!
 post: love vashikaran, love vashikaran specialist,919828891153 love vashikaran special black magic specialist hurry hurry love now
 ````
-Now, go to `/sidekiq/scheduler` and find the `CheckForSpamPosts` jobs and trigger it.  Now, go to `/admin` and look for the tab that says `Akismet` in the menu bar.  Upon clicking you should see the post with some additional info about it.
+Now, go to `/sidekiq/scheduler` and find the `CheckForSpamPosts` jobs and trigger it.  Now, as an admin, go to `/admin` and look for the tab that says `Akismet` in the menu bar.  Upon clicking you should see the post with some additional info about it.
 
 ## Debugging
 Some basic logging has been added.  Check out `/logs` and search for `[akismet]`.  It will log when the job started running and info about posts that it found that it believes are spam.
 
-For testing purposes, you can also trigger the job whenever you want by going to `/sidekiq/scheduler` if you are an admin.  Look for a job called `CheckForSpamPosts`
+## Contributing
+Help make this plugin better by submitting a PR.  It's as easy as 1-2-3
+
+* fork the repo
+* create a feature branch
+* rebase off master and send the pr
+
 
 
 This project uses MIT-LICENSE.
