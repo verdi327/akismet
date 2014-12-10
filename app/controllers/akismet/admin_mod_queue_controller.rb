@@ -15,6 +15,7 @@ module Akismet
     def allow
       post = Post.with_deleted.find(params[:post_id])
       PostDestroyer.new(current_user, post).recover
+      post.reload
       post.akismet_spam_data.mark_as_ham!
       post.ham!
       render json: {msg: "Thanks for making Akismet smarter. Post marked as NOT spam and has been undeleted"}.to_json
